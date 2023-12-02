@@ -7,6 +7,7 @@ const Row = () => {
     const [membersPerPage] = useState(10);
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
+    const [editableRowId, setEditableRowId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,12 +36,14 @@ const Row = () => {
             member.id === id ? { ...member, name: newName } : member
         );
         setMembers(updatedMembers);
+        // setEditableRowId(null); // Close editing mode
     };
 
     // Delete member by ID
     const deleteMember = id => {
         const filteredMembers = members.filter(member => member.id !== id);
         setMembers(filteredMembers);
+        setSelectedRows(selectedRows.filter(rowId => rowId !== id)); // Remove from selected rows if deleted
     };
 
     // Handle row selection
@@ -70,8 +73,8 @@ const Row = () => {
 
     // Delete selected rows
     const deleteSelectedRows = () => {
-        const filteredMembers = members.filter(member => !selectedRows.includes(member.id));
-        setMembers(filteredMembers);
+        const updatedMembers = members.filter(member => !selectedRows.includes(member.id));
+        setMembers(updatedMembers);
         setSelectedRows([]);
     };
 
@@ -83,13 +86,27 @@ const Row = () => {
             <ul className=''>
                 {currentMembers.map((member, index) => (
                     <div key={index} className={selectedRows.includes(member.id) ? 'selected-row' : ''}>
-                        <ul className='title-items' onClick={() => handleRowSelection(member.id)}>
+                        <ul className='title-items'>
                             <li> {member.id}</li>
-                            <li> {member.name}</li>
+                            <li>
+                                {editableRowId === member.id ? (
+                                    <input
+                                        type="text"
+                                        value={member.name}
+                                        onChange={e => editMember(member.id, e.target.value)}
+                                        onBlur={() => setEditableRowId(null)}
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <span onClick={() => setEditableRowId(member.id)}>
+                                        {member.name}
+                                    </span>
+                                )}
+                            </li>
                             <li> {member.email}</li>
                             <li> {member.role}</li>
                             <li>
-                                <button onClick={() => editMember(member.id, 'New Name')}>edit</button>
+                                <button onClick={() => setEditableRowId(member.id)}>edit</button>
                                 <button onClick={() => deleteMember(member.id)}>delete</button>
                             </li>
                         </ul>
@@ -116,6 +133,10 @@ const Row = () => {
 
 export default Row;
 
+
+// ... (Navbar component remains unchanged)
+
+
 // ... (Navbar component remains unchanged)
 
 
@@ -131,4 +152,6 @@ const Navbar = () => {
         </>
     )
 }
-export { Navbar }; 
+export { Navbar };
+
+
