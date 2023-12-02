@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+.title-items {
+  display: flex;
+  justify-content: space-between;
+}
+.title-items li {
+  list-style: none;
+}
+.pagination {
+  margin-top: 12rem;
+}
+.pagination-btn {
+  cursor: pointer;
+}
+.row {
+  cursor: pointer;
+}
+.selected-row {
+  background-color: red;
+}
