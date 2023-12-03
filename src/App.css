@@ -2,6 +2,11 @@
   margin: 0;
   padding: 0;
 }
+html,
+body {
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -14,14 +19,58 @@
   list-style: none;
 }
 .pagination {
-  margin-top: 12rem;
+  margin-top: 2rem;
+  justify-content: center;
 }
-.pagination-btn {
-  cursor: pointer;
+.pagination button {
+  padding: 0.8rem;
+  margin: 0px 10px;
 }
 .row {
   cursor: pointer;
 }
 .selected-row {
-  background-color: red;
+  background-color: rgb(206, 196, 196);
+}
+.topbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+button {
+  cursor: pointer;
+}
+.flex {
+  display: flex;
+}
+.trigger-search {
+  background-image: url("https://img.icons8.com/?size=60&id=59878&format=png");
+  background-repeat: no-repeat;
+  background-size: 0.8rem;
+  cursor: pointer;
+
+  border-radius: 4px;
+  text-align: center;
+}
+
+table {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  font-size: x-large;
+}
+.new-entry {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-left: 2rem;
+  padding: 0.6rem;
+  font-size: large;
+}
+.column {
+  border: 2px solid greenyellow;
+  padding: 0rem 2rem;
+  text-align: center;
+}
+.table-headings {
+  font-size: 1.8rem;
 }

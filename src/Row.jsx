@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin4Line } from "react-icons/ri";
+
 
 const Row = () => {
     const [members, setMembers] = useState([]);
@@ -114,29 +117,39 @@ const Row = () => {
 
     return (
         <div>
-            <input
-                type="text"
-                placeholder='Search...'
-                value={searchTerm}
-                onChange={handleSearch}
-            />
-            <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
+            <div className="topbar">
+
+                <div className='flex select-all'>
+                    <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
+                    <p>Select All</p>
+                </div>
+                {/* Delete Selected Button */}
+                <button onClick={deleteSelectedRows}>Delete Selected</button>
+                <input
+                    type="text"
+                    placeholder='Search...'
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className='trigger-search'
+                />
+
+            </div>
 
             <table className=''>
                 <thead>
-                    <tr>
+                    <tr className='table-headings'>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {currentMembers.map((member, index) => (
                         <tr key={index} className={selectedRows.includes(member.id) ? 'selected-row' : 'row'} onClick={() => handleRowSelection(member.id)}>
-                            <td>{member.id}</td>
-                            <td>
+                            <td className='column'>{member.id}</td>
+                            <td className='column'>
                                 {editableRowId === member.id ? (
                                     <input
                                         type="text"
@@ -151,11 +164,11 @@ const Row = () => {
                                     </span>
                                 )}
                             </td>
-                            <td>{member.email}</td>
-                            <td>{member.role}</td>
-                            <td>
-                                <button onClick={() => setEditableRowId(member.id)}>edit</button>
-                                <button onClick={() => deleteMember(member.id)}>delete</button>
+                            <td className="column" >{member.email}</td>
+                            <td className='column' >{member.role}</td>
+                            <td className='column'>
+                                <button onClick={() => setEditableRowId(member.id)}><FiEdit /></button>
+                                <button onClick={() => deleteMember(member.id)}><RiDeleteBin4Line /></button>
                             </td>
                         </tr>
                     ))}
@@ -166,8 +179,8 @@ const Row = () => {
                 {/* ... (Existing code remains unchanged) */}
 
                 {/* Button to toggle the display of the add new member form */}
-                <button onClick={() => setShowAddForm(!showAddForm)}>
-                    {showAddForm ? "Hide Form" : "Add New Entry"}
+                <button onClick={() => setShowAddForm(!showAddForm)} className='new-entry'>
+                    {showAddForm ? "Hide Form" : "Add New Entry + "}
                 </button>
 
                 {/* Form to add a new member */}
@@ -205,28 +218,27 @@ const Row = () => {
                                 setNewMemberData({ ...newMemberData, role: e.target.value })
                             }
                         />
-                        <button onClick={addNewMember}>Add Member</button>
+                        <button onClick={addNewMember}>Add Member </button>
                     </div>
                 )}
             </div>
             {/* Pagination */}
             <div>
                 {members.length > 0 && (
-                    <ul className="pagination">
+                    <div className="pagination flex">
                         {Array.from(
                             { length: Math.ceil(members.length / membersPerPage) },
                             (_, index) => (
-                                <li key={index} onClick={() => paginate(index + 1)}>
+                                <button key={index} onClick={() => paginate(index + 1)}>
                                     {index + 1}
-                                </li>
+                                </button>
                             )
                         )}
-                    </ul>
+                    </div>
                 )}
             </div>
-            {/* Delete Selected Button */}
-            <button onClick={deleteSelectedRows}>Delete Selected</button>
-        </div>
+
+        </div >
     );
 };
 
