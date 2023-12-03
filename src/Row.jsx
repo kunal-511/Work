@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin4Line } from "react-icons/ri";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 
 const Row = () => {
@@ -149,7 +151,9 @@ const Row = () => {
                 <tbody>
                     {currentMembers.map((member, index) => (
                         <tr key={index} className={selectedRows.includes(member.id) ? 'selected-row' : 'row'} onClick={() => handleRowSelection(member.id)}>
-                            <td className='column'>{member.id}</td>
+                            <td className='column '>
+                                {selectedRows.includes(member.id) ? <FaCheckCircle className='checked' /> : member.id}
+                            </td>
                             <td className='column'>
                                 {editableRowId === member.id ? (
                                     <input
@@ -168,8 +172,8 @@ const Row = () => {
                             <td className="column" >{member.email}</td>
                             <td className='column' >{member.role}</td>
                             <td className='column'>
-                                <button onClick={() => setEditableRowId(member.id)}><FiEdit /></button>
-                                <button onClick={() => deleteMember(member.id)}><RiDeleteBin4Line /></button>
+                                <button className='blue-hover btn edit-btn' onClick={() => setEditableRowId(member.id)}><FiEdit /></button>
+                                <button className='red-hover btn delete-btn' onClick={() => deleteMember(member.id)}><RiDeleteBin4Line /></button>
                             </td>
                         </tr>
                     ))}
@@ -230,7 +234,7 @@ const Row = () => {
                         {Array.from(
                             { length: Math.ceil(members.length / membersPerPage) },
                             (_, index) => (
-                                <button key={index} onClick={() => paginate(index + 1)}>
+                                <button className='blue-hover' key={index} onClick={() => paginate(index + 1)}>
                                     {index + 1}
                                 </button>
                             )
