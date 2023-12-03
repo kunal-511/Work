@@ -1,4 +1,4 @@
-import { Navbar } from './Row'
+// import { Navbar } from './Row'
 import Title from './Title'
 import Row from './Row'
 
@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Title />
       <Row />
 

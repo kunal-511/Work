@@ -8,6 +8,7 @@ const Row = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [editableRowId, setEditableRowId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -24,7 +25,23 @@ const Row = () => {
     // Logic for displaying members on current page
     const indexOfLastMember = currentPage * membersPerPage;
     const indexOfFirstMember = indexOfLastMember - membersPerPage;
-    const currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+    let currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+
+    // Filter members based on search term
+    if (searchTerm) {
+        currentMembers = currentMembers.filter(member =>
+            Object.values(member).some(value =>
+                value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }
+
+    // Function to handle search input change
+    const handleSearch = event => {
+        setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset current page when the search term changes
+    };
+
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -81,6 +98,12 @@ const Row = () => {
     return (
         <div>
             {/* Checkbox for select/deselect all */}
+            <input
+                type="text"
+                placeholder='Search...'
+                value={searchTerm}
+                onChange={handleSearch}
+            />
             <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
 
             <ul className=''>
