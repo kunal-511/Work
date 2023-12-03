@@ -13,6 +13,8 @@ const Row = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [editableRowId, setEditableRowId] = useState(null);
+    const [editableEmailRowId, setEditableEmailRowId] = useState(null); // State for editable email row
+    const [editableRoleRowId, setEditableRoleRowId] = useState(null); // State for editable role row
     const [searchTerm, setSearchTerm] = useState(''); // State for search term
     const [showAddForm, setShowAddForm] = useState(false); // New state to handle showing/hiding the add form
     const [newMemberData, setNewMemberData] = useState({
@@ -67,7 +69,25 @@ const Row = () => {
             member.id === id ? { ...member, name: newName } : member
         );
         setMembers(updatedMembers);
-        //setEditableRowId(null); // Close editing mode
+
+    };
+
+    // Edit Email by id 
+    const editEmail = (id, newEmail) => {
+        const updatedMembers = members.map(member =>
+            member.id === id ? { ...member, email: newEmail } : member
+        );
+        setMembers(updatedMembers);
+
+    };
+
+    // Edit role by ID
+    const editRole = (id, newRole) => {
+        const updatedMembers = members.map(member =>
+            member.id === id ? { ...member, role: newRole } : member
+        );
+        setMembers(updatedMembers);
+
     };
 
     // Delete member by ID
@@ -169,8 +189,38 @@ const Row = () => {
                                     </span>
                                 )}
                             </td>
-                            <td className="column" >{member.email}</td>
-                            <td className='column' >{member.role}</td>
+                            <td className='column'>
+                                {/* Editable email field */}
+                                {editableEmailRowId === member.id ? (
+                                    <input
+                                        type="text"
+                                        value={member.email}
+                                        onChange={e => editEmail(member.id, e.target.value)}
+                                        onBlur={() => setEditableEmailRowId(null)}
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <span onClick={() => setEditableEmailRowId(member.id)}>
+                                        {member.email}
+                                    </span>
+                                )}
+                            </td>
+                            <td className="column">
+                                {/* Editable role field */}
+                                {editableRoleRowId === member.id ? (
+                                    <input
+                                        type="text"
+                                        value={member.role}
+                                        onChange={e => editRole(member.id, e.target.value)}
+                                        onBlur={() => setEditableRoleRowId(null)}
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <span onClick={() => setEditableRoleRowId(member.id)}>
+                                        {member.role}
+                                    </span>
+                                )}
+                            </td>
                             <td className='column'>
                                 <button className='blue-hover btn edit-btn' onClick={() => setEditableRowId(member.id)}><FiEdit /></button>
                                 <button className='red-hover btn delete-btn' onClick={() => deleteMember(member.id)}><RiDeleteBin4Line /></button>
