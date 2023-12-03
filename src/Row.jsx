@@ -43,8 +43,9 @@ const Row = () => {
     };
 
 
+
     // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     // Edit member by ID
 
@@ -140,11 +141,14 @@ const Row = () => {
             <div>
                 {members.length > 0 && (
                     <ul className="pagination">
-                        {Array.from({ length: Math.ceil(members.length / membersPerPage) }, (_, index) => (
-                            <li key={index} onClick={() => paginate(index + 1)}>
-                                {index + 1}
-                            </li>
-                        ))}
+                        {Array.from(
+                            { length: Math.ceil(members.length / membersPerPage) },
+                            (_, index) => (
+                                <li key={index} onClick={() => paginate(index + 1)}>
+                                    {index + 1}
+                                </li>
+                            )
+                        )}
                     </ul>
                 )}
             </div>
