@@ -57,6 +57,7 @@ const Row = () => {
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+
     // Edit member by ID
 
     const editMember = (id, newName) => {
@@ -124,7 +125,7 @@ const Row = () => {
                     <p>Select All</p>
                 </div>
                 {/* Delete Selected Button */}
-                <button onClick={deleteSelectedRows}>Delete Selected</button>
+                <button onClick={deleteSelectedRows} className='delete-selected red-hover'>Delete Selected</button>
                 <input
                     type="text"
                     placeholder='Search...'

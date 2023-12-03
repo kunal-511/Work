@@ -6,6 +6,8 @@ html,
 body {
   overflow-x: hidden;
   box-sizing: border-box;
+  /* background-color: black;
+  color: white; */
 }
 .navbar {
   display: flex;
@@ -46,13 +48,23 @@ button {
 .trigger-search {
   background-image: url("https://img.icons8.com/?size=60&id=59878&format=png");
   background-repeat: no-repeat;
-  background-size: 0.8rem;
+  background-size: 1.2rem;
   cursor: pointer;
 
   border-radius: 4px;
   text-align: center;
 }
-
+.delete-selected {
+  width: 10rem;
+  height: 2rem;
+  font-size: 1rem;
+}
+.red-hover:hover {
+  background-color: red;
+}
+.select-all {
+  align-items: center;
+}
 table {
   margin-top: 2rem;
   margin-left: 2rem;
