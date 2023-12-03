@@ -27,7 +27,7 @@ const Row = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
-                setMembers(response.data); // Assuming the API response is an array of members
+                setMembers(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -53,7 +53,7 @@ const Row = () => {
     // Function to handle search input change
     const handleSearch = event => {
         setSearchTerm(event.target.value);
-        setCurrentPage(1); // Reset current page when the search term changes
+        setCurrentPage(1);
     };
 
 
@@ -134,8 +134,8 @@ const Row = () => {
 
     const addNewMember = () => {
         setMembers([...members, newMemberData]);
-        setShowAddForm(false); // Hide the add form after adding a new member
-        setNewMemberData({ id: "", name: "", email: "", role: "" }); // Reset the form data
+        setShowAddForm(false);
+        setNewMemberData({ id: "", name: "", email: "", role: "" });
     };
 
     return (
@@ -146,7 +146,7 @@ const Row = () => {
                     <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
                     <p>Select All</p>
                 </div>
-                {/* Delete Selected Button */}
+
                 <button onClick={deleteSelectedRows} className='delete-selected red-hover'>Delete Selected</button>
                 <input
                     type="text"
@@ -190,7 +190,7 @@ const Row = () => {
                                 )}
                             </td>
                             <td className='column'>
-                                {/* Editable email field */}
+
                                 {editableEmailRowId === member.id ? (
                                     <input
                                         type="text"
@@ -206,7 +206,7 @@ const Row = () => {
                                 )}
                             </td>
                             <td className="column">
-                                {/* Editable role field */}
+
                                 {editableRoleRowId === member.id ? (
                                     <input
                                         type="text"
@@ -231,7 +231,7 @@ const Row = () => {
             </table>
 
             <div>
-                {/* ... (Existing code remains unchanged) */}
+
 
                 {/* Button to toggle the display of the add new member form */}
                 <button onClick={() => setShowAddForm(!showAddForm)} className='new-entry'>
