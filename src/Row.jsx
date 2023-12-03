@@ -8,7 +8,6 @@ const Row = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [editableRowId, setEditableRowId] = useState(null);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -31,12 +30,13 @@ const Row = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     // Edit member by ID
+
     const editMember = (id, newName) => {
         const updatedMembers = members.map(member =>
             member.id === id ? { ...member, name: newName } : member
         );
         setMembers(updatedMembers);
-        // setEditableRowId(null); // Close editing mode
+        //setEditableRowId(null); // Close editing mode
     };
 
     // Delete member by ID
@@ -73,8 +73,8 @@ const Row = () => {
 
     // Delete selected rows
     const deleteSelectedRows = () => {
-        const updatedMembers = members.filter(member => !selectedRows.includes(member.id));
-        setMembers(updatedMembers);
+        const filteredMembers = members.filter(member => !selectedRows.includes(member.id));
+        setMembers(filteredMembers);
         setSelectedRows([]);
     };
 
@@ -85,8 +85,8 @@ const Row = () => {
 
             <ul className=''>
                 {currentMembers.map((member, index) => (
-                    <div key={index} className={selectedRows.includes(member.id) ? 'selected-row' : ''}>
-                        <ul className='title-items'>
+                    <div key={index} className={selectedRows.includes(member.id) ? 'selected-row' : 'row'}>
+                        <ul className='title-items' onClick={() => handleRowSelection(member.id)}>
                             <li> {member.id}</li>
                             <li>
                                 {editableRowId === member.id ? (
@@ -133,10 +133,6 @@ const Row = () => {
 
 export default Row;
 
-
-// ... (Navbar component remains unchanged)
-
-
 // ... (Navbar component remains unchanged)
 
 
@@ -152,6 +148,4 @@ const Navbar = () => {
         </>
     )
 }
-export { Navbar };
-
-
+export { Navbar }; 
