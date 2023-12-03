@@ -8,6 +8,8 @@ const Row = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [editableRowId, setEditableRowId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +28,22 @@ const Row = () => {
   // Logic for displaying members on current page
   const indexOfLastMember = currentPage * membersPerPage;
   const indexOfFirstMember = indexOfLastMember - membersPerPage;
-  const currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+  let currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+
+  // Filter members based on search term
+  if (searchTerm) {
+    currentMembers = currentMembers.filter((member) =>
+      Object.values(member).some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }
+
+  // Function to handle search input change
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset current page when the search term changes
+  };
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -84,23 +101,35 @@ const Row = () => {
 
   return (
     <div>
-      {/* Checkbox for select/deselect all */}
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={handleSearch}
+      />
       <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
 
-      <ul className="">
-        {currentMembers.map((member, index) => (
-          <div
-            key={index}
-            className={
-              selectedRows.includes(member.id) ? "selected-row" : "row"
-            }
-          >
-            <ul
-              className="title-items"
+      <table className="">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentMembers.map((member, index) => (
+            <tr
+              key={index}
+              className={
+                selectedRows.includes(member.id) ? "selected-row" : "row"
+              }
               onClick={() => handleRowSelection(member.id)}
             >
-              <li> {member.id}</li>
-              <li>
+              <td>{member.id}</td>
+              <td>
                 {editableRowId === member.id ? (
                   <input
                     type="text"
@@ -114,19 +143,19 @@ const Row = () => {
                     {member.name}
                   </span>
                 )}
-              </li>
-              <li> {member.email}</li>
-              <li> {member.role}</li>
-              <li>
+              </td>
+              <td>{member.email}</td>
+              <td>{member.role}</td>
+              <td>
                 <button onClick={() => setEditableRowId(member.id)}>
                   edit
                 </button>
                 <button onClick={() => deleteMember(member.id)}>delete</button>
-              </li>
-            </ul>
-          </div>
-        ))}
-      </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {/* Pagination */}
       <div>
         {members.length > 0 && (

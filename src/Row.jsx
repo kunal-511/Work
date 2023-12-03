@@ -9,6 +9,13 @@ const Row = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [editableRowId, setEditableRowId] = useState(null);
     const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [showAddForm, setShowAddForm] = useState(false); // New state to handle showing/hiding the add form
+    const [newMemberData, setNewMemberData] = useState({
+        id: "",
+        name: "",
+        email: "",
+        role: "",
+    });
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -99,6 +106,12 @@ const Row = () => {
         setSelectedRows([]);
     };
 
+    const addNewMember = () => {
+        setMembers([...members, newMemberData]);
+        setShowAddForm(false); // Hide the add form after adding a new member
+        setNewMemberData({ id: "", name: "", email: "", role: "" }); // Reset the form data
+    };
+
     return (
         <div>
             <input
@@ -148,6 +161,54 @@ const Row = () => {
                     ))}
                 </tbody>
             </table>
+
+            <div>
+                {/* ... (Existing code remains unchanged) */}
+
+                {/* Button to toggle the display of the add new member form */}
+                <button onClick={() => setShowAddForm(!showAddForm)}>
+                    {showAddForm ? "Hide Form" : "Add New Entry"}
+                </button>
+
+                {/* Form to add a new member */}
+                {showAddForm && (
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="ID"
+                            value={newMemberData.id}
+                            onChange={(e) =>
+                                setNewMemberData({ ...newMemberData, id: e.target.value })
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={newMemberData.name}
+                            onChange={(e) =>
+                                setNewMemberData({ ...newMemberData, name: e.target.value })
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            value={newMemberData.email}
+                            onChange={(e) =>
+                                setNewMemberData({ ...newMemberData, email: e.target.value })
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="Role"
+                            value={newMemberData.role}
+                            onChange={(e) =>
+                                setNewMemberData({ ...newMemberData, role: e.target.value })
+                            }
+                        />
+                        <button onClick={addNewMember}>Add Member</button>
+                    </div>
+                )}
+            </div>
             {/* Pagination */}
             <div>
                 {members.length > 0 && (
