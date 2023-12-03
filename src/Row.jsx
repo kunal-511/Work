@@ -299,19 +299,4 @@ const Row = () => {
 
 export default Row;
 
-// ... (Navbar component remains unchanged)
 
-
-const Navbar = () => {
-    return (
-        <>
-            <nav className='navbar'>
-                <div>logo</div>
-                <div>
-                    <input type="text" placeholder='search' />
-                </div>
-            </nav>
-        </>
-    )
-}
-export { Navbar }; 
