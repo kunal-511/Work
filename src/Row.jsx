@@ -65,7 +65,7 @@ const Row = () => {
     };
 
     // Handle row selection
-    const handleRowSelection = id => {
+    const handleRowSelection = (id) => {
         const selectedIndex = selectedRows.indexOf(id);
         let updatedSelection = [...selectedRows];
 
@@ -89,16 +89,18 @@ const Row = () => {
         setSelectAll(!selectAll);
     };
 
+
     // Delete selected rows
     const deleteSelectedRows = () => {
-        const filteredMembers = members.filter(member => !selectedRows.includes(member.id));
+        const filteredMembers = members.filter(
+            (member) => !selectedRows.includes(member.id)
+        );
         setMembers(filteredMembers);
         setSelectedRows([]);
     };
 
     return (
         <div>
-            {/* Checkbox for select/deselect all */}
             <input
                 type="text"
                 placeholder='Search...'
@@ -107,12 +109,21 @@ const Row = () => {
             />
             <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
 
-            <ul className=''>
-                {currentMembers.map((member, index) => (
-                    <div key={index} className={selectedRows.includes(member.id) ? 'selected-row' : 'row'}>
-                        <ul className='title-items' onClick={() => handleRowSelection(member.id)}>
-                            <li> {member.id}</li>
-                            <li>
+            <table className=''>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {currentMembers.map((member, index) => (
+                        <tr key={index} className={selectedRows.includes(member.id) ? 'selected-row' : 'row'} onClick={() => handleRowSelection(member.id)}>
+                            <td>{member.id}</td>
+                            <td>
                                 {editableRowId === member.id ? (
                                     <input
                                         type="text"
@@ -126,17 +137,17 @@ const Row = () => {
                                         {member.name}
                                     </span>
                                 )}
-                            </li>
-                            <li> {member.email}</li>
-                            <li> {member.role}</li>
-                            <li>
+                            </td>
+                            <td>{member.email}</td>
+                            <td>{member.role}</td>
+                            <td>
                                 <button onClick={() => setEditableRowId(member.id)}>edit</button>
                                 <button onClick={() => deleteMember(member.id)}>delete</button>
-                            </li>
-                        </ul>
-                    </div>
-                ))}
-            </ul>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
             {/* Pagination */}
             <div>
                 {members.length > 0 && (
